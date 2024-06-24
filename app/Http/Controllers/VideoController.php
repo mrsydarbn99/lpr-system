@@ -43,75 +43,39 @@ class VideoController extends Controller
     //     $d['model'] = Resident::paginate(10);
     //     return view('residents.residentList',$d);
     // }
-    protected $stopFile = 'storage/app/public/stop_scan';
 
     public function startScan(Request $request)
     {
         // Define the path to the Python script
         $scriptPath = base_path('public/assets/dist/python/main.py');
 
-        // Run the Python script in the background
+        // Run the Python script with an increased timeout value
         $process = new Process(['python', $scriptPath]);
-        $process->setTimeout(60);
+        // $process->setTimeout(600);  // Set timeout to 10 minutes
 
-        try {
-            $process->mustRun();
+        // Run the process
+        $process->run();
 
-            // Get the output from the Python script
-            $output = $process->getOutput();
-
-            // Process the output as needed
-            $carInDatabase = strpos($output, 'found in the') !== false;
-
-            // Get the latest image file from the scanned_plate directory
-            $latestImagePath = null;
-            if ($carInDatabase) {
-                $files = File::files(storage_path('app/public/scanned_plate'));
-                $latestFile = collect($files)->sortByDesc(function ($file) {
-                    return $file->getMTime();
-                })->first();
-                $latestImagePath = $latestFile ? 'storage/scanned_plate/' . $latestFile->getFilename() : null;
-            }
-
-            // Return a view with the output and latest image path
-            return view('scan', [
-                'output' => $output,
-                'carInDatabase' => $carInDatabase,
-                'latestImagePath' => $latestImagePath,
-                'timeout' => false
-            ]);
-
-        } catch (ProcessTimedOutException $e) {
-            // Handle timeout
-            return view('scan', [
-                'output' => 'The scan process took too long and was terminated.',
-                'carInDatabase' => false,
-                'latestImagePath' => null,
-                'timeout' => true
-            ]);
-        } catch (ProcessFailedException $e) {
-            // Handle other process failures
-            return view('scan', [
-                'output' => 'The scan process failed: ' . $e->getMessage(),
-                'carInDatabase' => false,
-                'latestImagePath' => null,
-                'timeout' => false
-            ]);
-        }
-    }
-
-    public function stopScan(Request $request)
-    {
-        // Ensure the stop file directory exists
-        $stopFileDirectory = dirname(storage_path($this->stopFile));
-        if (!File::exists($stopFileDirectory)) {
-            File::makeDirectory($stopFileDirectory, 0755, true);
+        // Check if the process was successful
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
         }
 
-        // Create a stop file to signal the running script to stop
-        File::put(storage_path($this->stopFile), 'stop');
+        // Get the output from the Python script
+        $output = $process->getOutput();
 
-        // Return a response to indicate the scan has stopped
-        return response()->json(['message' => 'Scan stopped successfully.']);
+        // Process the output as needed
+        // You might want to parse the output and check the database results here
+        $carInDatabase = strpos($output, 'found in the') !== false;
+
+        // Get the latest image file from the scanned_plate directory
+        $files = File::files(storage_path('app/public/scanned_plate'));
+        $latestFile = collect($files)->sortByDesc(function ($file) {
+            return $file->getMTime();
+        })->first();
+        $latestImagePath = $latestFile ? 'storage/scanned_plate/' . $latestFile->getFilename() : null;
+
+        // Return a view or redirect back with the output
+        return view('scan', ['output' => $output, 'carInDatabase' => $carInDatabase, 'latestImagePath' => $latestImagePath]);
     }
 }
