@@ -4,7 +4,7 @@ import numpy as np
 import sys
 from datetime import datetime
 from sort.sort import *
-from util import get_car, read_license_plate, write_csv, check_database, update_entry
+from util import get_car, read_license_plate, check_database, update_entry
 
 # if len(sys.argv) < 2:
 #     print("Usage: python process_video.py <path_to_video>")
@@ -12,16 +12,13 @@ from util import get_car, read_license_plate, write_csv, check_database, update_
 
 # video_path = sys.argv[1]
 
-# Define the stop signal file path
-stop_file = "C:/laragon/www/lpr-system/storage/app/public/stop_scan"
-
 results = {}
 
 mot_tracker = Sort()
 
 # load models
 coco_model = YOLO('yolov8s.pt')
-license_plate_detector = YOLO('C:/laragon/www/lpr-system/public/assets/dist/python/best.pt')
+license_plate_detector = YOLO('C:/laragon/www/lpr-system/public/assets/dist/python/best150.pt')
 
 # load video
 # cap = cv2.VideoCapture(video_path)
@@ -39,15 +36,11 @@ while ret:
     ret, frame = cap.read()
     if ret:
         try:
-            # if frame_nmr > 10:
-            #     break
             results[frame_num] = {}
             # detect vehicles
-            # pass
             detections = coco_model(frame)[0]
             detections_ = []
             for detection in detections.boxes.data.tolist():
-                # print(detections) ############
                 x1, y1, x2, y2, score, class_id = detection
                 if int(class_id) in vehicles:
                     detections_.append([x1, y1, x2, y2, score])
@@ -64,26 +57,15 @@ while ret:
                 xcar1, ycar1, xcar2, ycar2, car_id = get_car(license_plate, track_ids)
 
                 if car_id != -1:
-
                     # crop license plate
                     license_plate_crop = frame[int(y1):int(y2), int(x1): int(x2), :]
 
                     # process license plate
-                    # license_plate_crop_sharp = cv2.addWeighted(license_plate_crop, 2.3, np.zeros(license_plate_crop.shape, license_plate_crop.dtype), 0, -100)
                     license_plate_crop_gray = cv2.cvtColor(license_plate_crop, cv2.COLOR_BGR2GRAY)
                     _, license_plate_crop_thresh = cv2.threshold(license_plate_crop_gray, 70, 255, cv2.THRESH_BINARY)
-                    # th3 = cv2.adaptiveThreshold(license_plate_crop,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,11,2)
 
-                    # cv2.imshow('original_crop', license_plate_crop)
-                    # cv2.imshow('sharp', license_plate_crop_sharp)
-                    # cv2.imshow('threshold', license_plate_crop_thresh)
-                    # cv2.imshow('Adaptive Gaussian Thresholding', th3)
-
-                    # cv2.waitKey(0)
-                    
                     # read license plate number
                     license_plate_text, license_plate_text_score = read_license_plate(license_plate_crop_thresh)
-
                     clean_license_plate_text = license_plate_text.replace('_', '')
 
                     if license_plate_text is not None:
@@ -93,6 +75,13 @@ while ret:
                                                                     'text': clean_license_plate_text,
                                                                     'bbox_score': score,
                                                                     'text_score': license_plate_text_score}}
+
+                        # Draw bounding box around the license plate on the original frame
+                        cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+
+                        # Put the license plate text on the original frame
+                        cv2.putText(frame, clean_license_plate_text, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+
                         # Check against database
                         table = check_database(clean_license_plate_text)
                         if table:
@@ -117,15 +106,13 @@ while ret:
             print(f"Error processing frame {frame_num}: {e}")
 
     # Display the frame with detections
-    cv2.imshow('frame', frame)
+    cv2.imshow('Plate Detection', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# # Release the capture
-# cap.release()
-# cv2.destroyAllWindows()
+# Release the capture
+cap.release()
+cv2.destroyAllWindows()
 
 # Write results
 # write_csv(results, './cubaan.csv')
-
-

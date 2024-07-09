@@ -71,7 +71,7 @@ class NonResidentController extends Controller
      */
     public function edit(string $id)
     {
-        $d['title']='Resident Form';
+        $d['title']='Non-Resident Form';
         $d['model']=NonResident::find($id);
         return view('nonResidents.editNonResident',$d);
     }

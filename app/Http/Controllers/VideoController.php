@@ -51,7 +51,7 @@ class VideoController extends Controller
 
         // Run the Python script with an increased timeout value
         $process = new Process(['python', $scriptPath]);
-        // $process->setTimeout(600);  // Set timeout to 10 minutes
+        $process->setTimeout(120);  // Set timeout to 10 minutes
 
         // Run the process
         $process->run();
