@@ -56,7 +56,7 @@ class ResidentController extends Controller
 
         Resident::create($validate);
 
-        return redirect()->route('resident-list');
+        return redirect()->route('resident-list')->with('success', 'Resident registered successfully.');
     }
 
     /**
@@ -100,7 +100,7 @@ class ResidentController extends Controller
         $data=Resident::find($id);
         $data->update($validate);
 
-        return redirect()->route('resident-list');
+        return redirect()->route('resident-list')->with('success', 'Resident updated successfully.');
     }
 
     /**
@@ -109,6 +109,6 @@ class ResidentController extends Controller
     public function destroy(string $id)
     {
         $data=Resident::destroy($id);
-        return redirect()->route('resident-list');
+        return redirect()->route('resident-list')->with('success', 'Resident deleted successfully.');
     }
 }

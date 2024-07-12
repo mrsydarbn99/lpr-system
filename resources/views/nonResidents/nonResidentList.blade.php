@@ -8,9 +8,13 @@
 <div class="container-fluid">
     <!-- Create Button -->
     <div class="mb-3">
-        <a href="{{ route('non-resident-create') }}" class="btn btn-success" class="">Create New Non-Resident</a>
+        <a href="{{ route('non-resident-create') }}" class="btn btn-success">Create New Non-Resident</a>
     </div>
-
+    @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
     <!-- Table Section -->
     <div class="table-responsive">
         <table class="table table-striped">
@@ -27,7 +31,7 @@
             <tbody>
                 @foreach ($model as $item)
                 <tr>
-                    <th scope="row">{{ $i++ }}</th>
+                    <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->phone_num }}</td>
                     <td>{{ $item->plate_num }}</td>
@@ -35,18 +39,43 @@
                     <td>
                         <div class="btn-group" role="group" aria-label="Actions">
                             <a href="{{ route('non-resident-edit', $item->id) }}" class="btn btn-primary" style="margin-right: 10px">Edit</a>
-                            <form action="{{ route('non-resident-delete', $item->id) }}" method="post">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-danger text-white" onclick="return confirm('Confirm Delete?');">Delete</button>
-                            </form>
+                            <!-- Delete Modal Trigger Button -->
+                            <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ $item->id }}">Delete</button>
                         </div>
                     </td>
                 </tr>
+
+                <!-- Delete Modal -->
+                <div class="modal fade" id="deleteModal{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ $item->id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel{{ $item->id }}">Confirm Delete</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete "{{ $item->name }}"?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <form action="{{ route('non-resident-delete', $item->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Delete Modal -->
+
                 @endforeach
             </tbody>
         </table>
     </div>
 </div>
+
 
 @endsection

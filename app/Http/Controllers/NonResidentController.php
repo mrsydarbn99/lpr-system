@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Models\NonResident;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NonResidentController extends Controller
 {
@@ -55,7 +57,12 @@ class NonResidentController extends Controller
 
         NonResident::create($validate);
 
-        return redirect()->route('non-resident-list');
+        if (Auth::user()->is_admin ?? false) {
+            return redirect()->route('non-resident-list')->with('success', 'Non-resident registered successfully.');
+        }else{
+            return redirect()->route('register')->with('success', 'Non-resident registered successfully.');
+        }
+            
     }
 
     /**
@@ -99,7 +106,17 @@ class NonResidentController extends Controller
         $data=NonResident::find($id);
         $data->update($validate);
 
-        return redirect()->route('non-resident-list');
+        return redirect()->route('non-resident-list')->with('success', 'Non-resident updated successfully.');
+    }
+    
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function registration(): View
+    {
+        return view('nonResidents.registration');
     }
 
     /**
@@ -108,6 +125,6 @@ class NonResidentController extends Controller
     public function destroy(string $id)
     {
         $data=NonResident::destroy($id);
-        return redirect()->route('non-resident-list');
+        return redirect()->route('non-resident-list')->with('success', 'Non-resident deleted successfully.');
     }
 }

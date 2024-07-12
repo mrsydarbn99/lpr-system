@@ -14,7 +14,7 @@
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Plate Num</label>
-    <input type="text" name="plate_num" value="{{ old('age',$model->plate_num) }}" class="form-control @error('plate_num') is-invalid @enderror" id="exampleInputPassword1">
+    <input type="text" name="plate_num" value="{{ old('plate_num',$model->plate_num) }}" class="form-control @error('plate_num') is-invalid @enderror" id="exampleInputPassword1">
     @error('plate_num')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror

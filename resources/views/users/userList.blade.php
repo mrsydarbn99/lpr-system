@@ -8,13 +8,20 @@
 <div class="container-fluid">
     <!-- Create Button -->
     <div class="mb-3">
-        <a href="{{ route('resident-create') }}" class="btn btn-success" class="">Create New Resident</a>
+        <a href="{{ route('user-create') }}" class="btn btn-success" class="">Create New User</a>
     </div>
     @if (session('success'))
         <div class="alert alert-success" role="alert">
             {{ session('success') }}
         </div>
     @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <!-- Table Section -->
     <div class="table-responsive">
         <table class="table table-striped">
@@ -22,9 +29,8 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Phone Number</th>
-                    <th scope="col">Plate Number</th>
-                    <th scope="col">Entry Time</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Created At</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -33,12 +39,11 @@
                 <tr>
                     <th scope="row">{{ $i++ }}</th>
                     <td>{{ $item->name }}</td>
-                    <td>{{ $item->phone_num }}</td>
-                    <td>{{ $item->plate_num }}</td>
-                    <td>{{ $item->entry_time }}</td>
+                    <td>{{ $item->email }}</td>
+                    <td>{{ $item->created_at }}</td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Actions">
-                            <a href="{{ route('non-resident-edit', $item->id) }}" class="btn btn-primary" style="margin-right: 10px">Edit</a>
+                            <a href="{{ route('user-edit', $item->id) }}" class="btn btn-primary" style="margin-right: 10px">Edit</a>
                             <!-- Delete Modal Trigger Button -->
                             <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ $item->id }}">Delete</button>
                         </div>
@@ -60,7 +65,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <form action="{{ route('non-resident-delete', $item->id) }}" method="POST" style="display: inline;">
+                                <form action="{{ route('user-delete', $item->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>

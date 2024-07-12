@@ -44,6 +44,13 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('user-list') }}">
+            <i class="fas fa-fw fa-male"></i>
+            <span>Users</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link collapsed" href="/scan">
             <i class="fas fa-fw fa-search"></i>
             <span>LPR System</span>
