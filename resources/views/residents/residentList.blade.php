@@ -24,7 +24,8 @@
                     <th scope="col">Name</th>
                     <th scope="col">Phone Number</th>
                     <th scope="col">Plate Number</th>
-                    <th scope="col">Entry Time</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -36,6 +37,13 @@
                     <td>{{ $item->phone_num }}</td>
                     <td>{{ $item->plate_num }}</td>
                     <td>{{ $item->entry_time }}</td>
+                    <td>
+                        @if ($item->status == 'In')
+                            <span class="badge text-bg-success fs-6">In</span>
+                        @else
+                            <span class="badge text-bg-danger fs-6">Out</span>
+                        @endif
+                    </td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Actions">
                             <a href="{{ route('resident-edit', $item->id) }}" class="btn btn-primary" style="margin-right: 10px">Edit</a>

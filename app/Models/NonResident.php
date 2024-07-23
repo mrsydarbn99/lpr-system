@@ -11,5 +11,5 @@ class NonResident extends Model
 
     protected $table = 'non_residents';
     protected $primaryKey = 'id';
-    protected $fillable = ['name', 'phone_num', 'plate_num', 'entry_time', 'status'];
+    protected $fillable = ['name', 'phone_num', 'plate_num', 'entry_time', 'status', 'days'];
 }

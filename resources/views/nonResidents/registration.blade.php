@@ -71,6 +71,19 @@
                   @enderror
                 </div>
                 <div class="col-12">
+                    <select class="form-select mb-3" aria-label="Default select example" name="days" id="days" required>
+                        <option selected>Days</option>
+                        @for ($i = 1; $i < 8; $i++)
+                          <option value="{{ $i }}">{{ $i }}</option>
+                        @endfor
+                    </select>
+                  @error('days')
+                      <span class="text-danger" role="alert">
+                          <strong>{{ $message }}</strong>
+                      </span>
+                  @enderror
+                </div>
+                <div class="col-12">
                   <div class="d-grid my-3">
                     <button class="btn btn-primary btn-lg" type="submit">{{ __('Register') }}</button>
                   </div>

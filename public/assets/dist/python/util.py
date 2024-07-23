@@ -186,10 +186,17 @@ def update_entry(license_plate, table):
     
     # Get current status
     db_cursor.execute(select_query, (license_plate,))
-    current_status = db_cursor.fetchone()
+    result = db_cursor.fetchone()
 
-    if current_status:
-        new_status = 'Out' if current_status[0] == 'In' else 'In'
+    if result:
+        current_status = result[0]
+
+        if current_status == 'New':
+            new_status = 'In'
+        elif current_status == 'In':
+            new_status = 'Out'
+        else:  # current_status == 'Out'
+            new_status = 'In'
 
         # Update entry time and status
         db_cursor.execute(update_query, (entry_time, new_status, license_plate))

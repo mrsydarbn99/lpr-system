@@ -24,18 +24,28 @@
                     <th scope="col">Name</th>
                     <th scope="col">Phone Number</th>
                     <th scope="col">Plate Number</th>
-                    <th scope="col">Entry Time</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($model as $item)
                 <tr>
-                    <th scope="row">{{ $loop->iteration }}</th>
+                    <th scope="row">{{ $i++ }}</th>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->phone_num }}</td>
                     <td>{{ $item->plate_num }}</td>
                     <td>{{ $item->entry_time }}</td>
+                    <td>
+                        @if ($item->status == 'In')
+                            <span class="badge text-bg-success fs-6">In</span>
+                        @elseif ($item->status == 'Out')
+                            <span class="badge text-bg-danger fs-6">Out</span>
+                        @elseif ($item->status == 'New')
+                            <span class="badge text-bg-primary fs-6">New</span>
+                        @endif
+                    </td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Actions">
                             <a href="{{ route('non-resident-edit', $item->id) }}" class="btn btn-primary" style="margin-right: 10px">Edit</a>

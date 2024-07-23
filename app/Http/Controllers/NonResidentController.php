@@ -46,18 +46,29 @@ class NonResidentController extends Controller
             'name.required' => 'Please enter your name',
             'phone_num.required' => 'Please enter your phone number',
             'plate_num.required' => 'Please enter your plate number',
+            'days.required' => 'Please enter how many days'
         ];
 
         $validate = $request->validate([
             'name' => 'required',
             'phone_num' => 'required',
             'plate_num' => ['required', new UniquePlateNumber],
+            'days' => 'required|integer|min:1'
         ], $message);
 
-        // Delete the old plate number if it exists and is older than 24 hours
-        NonResident::where('plate_num', $request->plate_num)
-        ->where('created_at', '<', Carbon::now()->subDay())
-        ->delete();
+        // Find the existing plate number entry if it exists
+        $existingNonResident = NonResident::where('plate_num', $request->plate_num)->first();
+
+        if ($existingNonResident) {
+            $daysPassed = Carbon::parse($existingNonResident->created_at)->diffInDays(Carbon::now());
+            // dd($daysPassed,$request->days);
+            // If the existing entry is older than 24 hours, delete it
+            if ($daysPassed >= $request->days) {
+                $existingNonResident->delete();
+            } else {
+                return redirect()->back()->withErrors(['plate_num' => 'The plate number has already been registered.']);
+            }
+        }
 
         NonResident::create($validate);
 
