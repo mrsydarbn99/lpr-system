@@ -40,7 +40,7 @@ class AuthController extends Controller
             $user = Auth::user();
             $request->session()->put('user_id', $user->id);
             $request->session()->put('username', $user->name);
-            return redirect()->intended('/')
+            return redirect()->intended('dashboard')
                         ->withSuccess('You have Successfully loggedin');
         }
   
@@ -65,7 +65,7 @@ class AuthController extends Controller
             
         Auth::login($user); 
 
-        return redirect("/")->withSuccess('Great! You have successfully logged in');
+        return redirect("dashboard")->withSuccess('Great! You have successfully logged in');
     }
     
     /**
@@ -76,7 +76,7 @@ class AuthController extends Controller
     public function dashboard()
     {
         if(Auth::check()){
-            return view('/');
+            return view('dashboard');
         }
   
         return redirect("login")->withSuccess('Opps! You do not have access');

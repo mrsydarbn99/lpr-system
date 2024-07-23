@@ -174,14 +174,29 @@ def update_entry(license_plate, table):
     entry_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     if table == 'residents':
-        query = "UPDATE residents SET entry_time = %s WHERE plate_num = %s"
+        select_query = "SELECT status FROM residents WHERE plate_num = %s"
+        update_query = "UPDATE residents SET entry_time = %s, status = %s WHERE plate_num = %s"
     elif table == 'non_residents':
-        query = "UPDATE non_residents SET entry_time = %s WHERE plate_num = %s"
+        select_query = "SELECT status FROM non_residents WHERE plate_num = %s"
+        update_query = "UPDATE non_residents SET entry_time = %s, status = %s WHERE plate_num = %s"
     else:
         raise ValueError(f"License plate '{license_plate}' not found in the database.")
 
     db_cursor = db_connection.cursor()
-    db_cursor.execute(query, (entry_time, license_plate))
-    db_connection.commit()
+    
+    # Get current status
+    db_cursor.execute(select_query, (license_plate,))
+    current_status = db_cursor.fetchone()
+
+    if current_status:
+        new_status = 'Out' if current_status[0] == 'In' else 'In'
+
+        # Update entry time and status
+        db_cursor.execute(update_query, (entry_time, new_status, license_plate))
+        db_connection.commit()
+    else:
+        raise ValueError(f"License plate '{license_plate}' not found in the database.")
+
+    db_cursor.close()
 
 

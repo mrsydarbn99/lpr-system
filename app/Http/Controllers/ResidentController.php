@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Resident;
 use Illuminate\Http\Request;
+use App\Rules\UniquePlateNumber;
 
 class ResidentController extends Controller
 {
@@ -50,7 +51,7 @@ class ResidentController extends Controller
         $validate=$request->validate([
             'name' => 'required',
             'phone_num' => 'required',
-            'plate_num' => 'required',
+            'plate_num' => ['required', new UniquePlateNumber],
 
         ],$message);
 
@@ -93,7 +94,7 @@ class ResidentController extends Controller
         $validate=$request->validate([
             'name' => 'required',
             'phone_num' => 'required',
-            'plate_num' => 'required',
+            'plate_num' => ['required', new UniquePlateNumber],
 
         ],$message);
 

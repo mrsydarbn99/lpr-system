@@ -17,6 +17,7 @@
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/dist/css/sb-admin-2.min.css') }}" rel="stylesheet">
@@ -58,11 +59,6 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
@@ -149,6 +145,8 @@
     <script src="{{ asset('assets/dist/js/demo/chart-pie-demo.js') }}"></script>
     
     <script src="{{ asset('assets/dist/js/bootstrap.bundle.min.js') }}"></script>
+
+    <script src="{{ asset('assets/dist/js/demo/chart-bar-demo.js') }}"></script>
     
 
 </body>

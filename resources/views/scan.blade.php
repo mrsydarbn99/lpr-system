@@ -45,7 +45,6 @@
 <table class="table">
     <div class="container-fluid">
         <div class="container">
-            <h2>Scan for Vehicles</h2>
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -56,9 +55,9 @@
                 </div>
             @endif
 
-            <form action="{{ route('scan.video') }}" method="POST">
+            <form action="{{ route('scan-video') }}" method="POST">
                 @csrf
-                <button class="btn btn-outline-secondary" type="submit" id="scan">Scan</button>
+                <button class="btn btn-info" type="submit" id="scan">Scan</button>
             </form>
 
             @if (isset($output))

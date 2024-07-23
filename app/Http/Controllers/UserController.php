@@ -107,7 +107,7 @@ class UserController extends Controller
         // dd($id);
         // Check if the authenticated user can delete this resident
         if ($request->session()->get('user_id') == $id) {
-            return redirect()->route('user-list')->with('error', 'You are not authorized to delete your data.');
+            return redirect()->route('user-list')->with('error', 'You are not authorized to delete your own data.');
         }
 
         $data=User::destroy($id);

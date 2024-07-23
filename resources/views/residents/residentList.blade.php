@@ -38,7 +38,7 @@
                     <td>{{ $item->entry_time }}</td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Actions">
-                            <a href="{{ route('non-resident-edit', $item->id) }}" class="btn btn-primary" style="margin-right: 10px">Edit</a>
+                            <a href="{{ route('resident-edit', $item->id) }}" class="btn btn-primary" style="margin-right: 10px">Edit</a>
                             <!-- Delete Modal Trigger Button -->
                             <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ $item->id }}">Delete</button>
                         </div>
@@ -60,7 +60,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <form action="{{ route('non-resident-delete', $item->id) }}" method="POST" style="display: inline;">
+                                <form action="{{ route('resident-delete', $item->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>

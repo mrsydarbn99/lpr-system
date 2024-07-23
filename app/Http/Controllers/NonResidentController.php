@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\View\View;
 use App\Models\NonResident;
 use Illuminate\Http\Request;
+use App\Rules\UniquePlateNumber;
 use Illuminate\Support\Facades\Auth;
 
 class NonResidentController extends Controller
@@ -40,29 +42,30 @@ class NonResidentController extends Controller
      */
     public function store(Request $request)
     {
-        $message=[
-            'name.required'=>'Please enter your name',
-            'phone_num.required'=>'Please enter your phone number',
-            'plate_num.required'=>'Please enter your plate number',
-
+        $message = [
+            'name.required' => 'Please enter your name',
+            'phone_num.required' => 'Please enter your phone number',
+            'plate_num.required' => 'Please enter your plate number',
         ];
 
-
-        $validate=$request->validate([
+        $validate = $request->validate([
             'name' => 'required',
             'phone_num' => 'required',
-            'plate_num' => 'required',
+            'plate_num' => ['required', new UniquePlateNumber],
+        ], $message);
 
-        ],$message);
+        // Delete the old plate number if it exists and is older than 24 hours
+        NonResident::where('plate_num', $request->plate_num)
+        ->where('created_at', '<', Carbon::now()->subDay())
+        ->delete();
 
         NonResident::create($validate);
 
         if (Auth::user()->is_admin ?? false) {
             return redirect()->route('non-resident-list')->with('success', 'Non-resident registered successfully.');
-        }else{
+        } else {
             return redirect()->route('register')->with('success', 'Non-resident registered successfully.');
         }
-            
     }
 
     /**
@@ -99,7 +102,7 @@ class NonResidentController extends Controller
         $validate=$request->validate([
             'name' => 'required',
             'phone_num' => 'required',
-            'plate_num' => 'required',
+            'plate_num' => ['required', new UniquePlateNumber],
 
         ],$message);
 

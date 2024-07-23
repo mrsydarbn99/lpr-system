@@ -11,5 +11,5 @@ class Resident extends Model
 
     protected $table = 'residents';
     protected $primaryKey = 'id';
-    protected $fillable = ['name', 'phone_num', 'plate_num', 'entry_time'];
+    protected $fillable = ['name', 'phone_num', 'plate_num', 'entry_time', 'status'];
 }

@@ -44,6 +44,12 @@ class VideoController extends Controller
     //     return view('residents.residentList',$d);
     // }
 
+    public function index()
+    {
+        $d['title'] = 'Scan for vehicle';
+        return view('scan',$d);
+    }
+
     public function startScan(Request $request)
     {
         // Define the path to the Python script
@@ -51,7 +57,7 @@ class VideoController extends Controller
 
         // Run the Python script with an increased timeout value
         $process = new Process(['python', $scriptPath]);
-        $process->setTimeout(120);  // Set timeout to 10 minutes
+        $process->setTimeout(12000);  // Set timeout to 10 minutes
 
         // Run the process
         $process->run();
@@ -76,6 +82,6 @@ class VideoController extends Controller
         $latestImagePath = $latestFile ? 'storage/scanned_plate/' . $latestFile->getFilename() : null;
 
         // Return a view or redirect back with the output
-        return view('scan', ['output' => $output, 'carInDatabase' => $carInDatabase, 'latestImagePath' => $latestImagePath]);
+        return view('scan', ['output' => $output, 'carInDatabase' => $carInDatabase, 'latestImagePath' => $latestImagePath, 'title' => 'Scan for vehicle']);
     }
 }
