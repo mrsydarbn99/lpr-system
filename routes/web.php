@@ -9,6 +9,7 @@ use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NonResidentController;
+use App\Http\Controllers\TransactionsController;
 
 Route::get('/', function () { return view('welcome'); })->name('welcome');
 
@@ -28,6 +29,8 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     Route::get('non-resident-edit/{id}', [NonResidentController::class, 'edit'])->name('non-resident-edit');
     Route::put('non-resident-update/{id}', [NonResidentController::class, 'update'])->name('non-resident-update');
     Route::delete('non-resident-delete/{id}', [NonResidentController::class, 'destroy'])->name('non-resident-delete');
+
+    Route::get('transactions-list', [TransactionsController::class, 'index'])->name('transactions-list');
 
     Route::get('user-list', [UserController::class, 'index'])->name('user-list');
     Route::get('user-create', [UserController::class, 'create'])->name('user-create');

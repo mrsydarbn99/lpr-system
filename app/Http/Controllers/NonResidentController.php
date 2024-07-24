@@ -106,7 +106,7 @@ class NonResidentController extends Controller
             'name.required'=>'Please enter your name',
             'phone_num.required'=>'Please enter your phone number',
             'plate_num.required'=>'Please enter your plate number',
-
+            'days.required' => 'Please enter how many days'
         ];
 
 
@@ -114,7 +114,7 @@ class NonResidentController extends Controller
             'name' => 'required',
             'phone_num' => 'required',
             'plate_num' => ['required', new UniquePlateNumber],
-
+            'days' => 'required|integer|min:1'
         ],$message);
 
         $data=NonResident::find($id);

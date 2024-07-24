@@ -14,16 +14,26 @@ class UniquePlateNumber implements Rule
         // Check in Residents table for uniqueness
         $existsInResidents = Resident::where('plate_num', $value)->exists();
 
-        // Check in NonResidents table for both uniqueness and time constraint
-        $recentInNonResidents = NonResident::where('plate_num', $value)
-            ->where('created_at', '>=', Carbon::now()->subDay())
-            ->exists();
+        // Fetch the non-resident entry for the plate number
+        $nonResident = NonResident::where('plate_num', $value)->first();
 
+        if ($nonResident) {
+            $days = $nonResident->days;
+
+            // Check if the record is within the specified number of days
+            $recentInNonResidents = NonResident::where('plate_num', $value)
+                ->where('created_at', '>=', Carbon::now()->subDays($days))
+                ->exists();
+        }else
+            $recentInNonResidents = true;
+        
+        // dd($existsInResidents);
         return !$existsInResidents && !$recentInNonResidents;
+        
     }
 
     public function message()
     {
-        return 'The plate number has already been registered within the last 24 hours.';
+        return 'The plate number has already been registered..';
     }
 }

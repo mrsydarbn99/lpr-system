@@ -44,6 +44,13 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('transactions-list') }}">
+            <i class="fas fa-fw fa-clipboard-list"></i>
+            <span>Transactions</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('user-list') }}">
             <i class="fas fa-fw fa-male"></i>
             <span>Users</span>

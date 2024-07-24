@@ -39,7 +39,7 @@
               <div class="row gy-2 overflow-hidden">
                 <div class="col-12">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" placeholder="Name" required>
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" placeholder="Name">
                     <label for="name" class="form-label">{{ __('Name') }}</label>
                   </div>
                   @error('name')
@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-12">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control @error('phone_num') is-invalid @enderror" name="phone_num" id="phone_num" placeholder="Phone Number" required>
+                    <input type="text" class="form-control @error('phone_num') is-invalid @enderror" name="phone_num" id="phone_num" placeholder="Phone Number">
                     <label for="phone_num" class="form-label">{{ __('Phone Number') }}</label>
                   </div>
                   @error('phone_num')
@@ -61,7 +61,7 @@
                 </div>
                 <div class="col-12">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control @error('plate_num') is-invalid @enderror" name="plate_num" id="plate_num" placeholder="Plate Number" required>
+                    <input type="text" class="form-control @error('plate_num') is-invalid @enderror" name="plate_num" id="plate_num" placeholder="Plate Number">
                     <label for="plate_num" class="form-label">{{ __('Plate Number') }}</label>
                   </div>
                   @error('plate_num')
@@ -71,7 +71,7 @@
                   @enderror
                 </div>
                 <div class="col-12">
-                    <select class="form-select mb-3" aria-label="Default select example" name="days" id="days" required>
+                    <select class="form-select @error('days') is-invalid @enderror mb-3" aria-label="Default select example" name="days" id="days">
                         <option selected>Days</option>
                         @for ($i = 1; $i < 8; $i++)
                           <option value="{{ $i }}">{{ $i }}</option>

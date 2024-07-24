@@ -6,10 +6,6 @@
 @endphp
 
 <div class="container-fluid">
-    <!-- Create Button -->
-    <div class="mb-3">
-        <a href="{{ route('non-resident-create') }}" class="btn btn-success">Create New Non-Resident</a>
-    </div>
     @if (session('success'))
         <div class="alert alert-success" role="alert">
             {{ session('success') }}
@@ -21,12 +17,10 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Phone Number</th>
                     <th scope="col">Plate Number</th>
                     <th scope="col">Time</th>
-                    <th scope="col">Days</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Type</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -34,26 +28,24 @@
                 @foreach ($model as $item)
                 <tr>
                     <th scope="row">{{ $i++ }}</th>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->phone_num }}</td>
                     <td>{{ $item->plate_num }}</td>
-                    <td>{{ $item->entry_time }}</td>
-                    <td>{{ $item->days }}</td>
+                    <td>{{ $item->time }}</td>
                     <td>
                         @if ($item->status == 'In')
                             <span class="badge text-bg-success fs-6">In</span>
-                        @elseif ($item->status == 'Out')
+                        @else
                             <span class="badge text-bg-danger fs-6">Out</span>
-                        @elseif ($item->status == 'New')
-                            <span class="badge text-bg-primary fs-6">New</span>
                         @endif
                     </td>
                     <td>
-                        <div class="btn-group" role="group" aria-label="Actions">
-                            <a href="{{ route('non-resident-edit', $item->id) }}" class="btn btn-primary" style="margin-right: 10px">Edit</a>
-                            <!-- Delete Modal Trigger Button -->
-                            <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ $item->id }}">Delete</button>
-                        </div>
+                        @if ($item->type == 'resident')
+                            <span class="badge text-bg-primary fs-6">Resident</span>
+                        @else
+                            <span class="badge text-bg-secondary fs-6">Non-Resident</span>
+                        @endif
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal{{ $item->id }}">Delete</button>
                     </td>
                 </tr>
 
@@ -72,7 +64,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <form action="{{ route('non-resident-delete', $item->id) }}" method="POST" style="display: inline;">
+                                <form action="{{ route('resident-delete', $item->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>
@@ -82,12 +74,10 @@
                     </div>
                 </div>
                 <!-- End Delete Modal -->
-
                 @endforeach
             </tbody>
         </table>
     </div>
 </div>
-
 
 @endsection
