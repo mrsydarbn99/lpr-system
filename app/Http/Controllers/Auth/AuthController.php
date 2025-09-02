@@ -41,7 +41,7 @@ class AuthController extends Controller
             $request->session()->put('user_id', $user->id);
             $request->session()->put('username', $user->name);
             return redirect()->intended('dashboard')
-                        ->withSuccess('You have Successfully loggedin');
+                        ->withSuccess('You have Successfully logged In');
         }
   
         return redirect("login")->withError('Opps! You have entered invalid credentials');

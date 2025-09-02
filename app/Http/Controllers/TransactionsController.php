@@ -13,7 +13,7 @@ class TransactionsController extends Controller
     public function index()
     {
         $d['title'] = 'Transactions List';
-        $d['model'] = Transactions::orderBy('time', 'desc')->paginate(10);
+        $d['model'] = Transactions::orderBy('time', 'desc')->paginate(7);
         return view('transactions.transactionsList', $d);
     }
 

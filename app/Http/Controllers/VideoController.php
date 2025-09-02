@@ -12,38 +12,6 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class VideoController extends Controller
 {
-    // public function showUploadForm()
-    // {
-    //     return view('upload');
-    // }
-
-    // public function uploadVideo(Request $request)
-    // {
-    //     $request->validate([
-    //         'video' => 'required|mimes:mp4,avi,mov,wmv|max:204800',
-    //     ]);
-
-    //     $video = $request->file('video');
-    //     $path = $video->store('videos', 'public');
-
-    //     // Run the Python script with the uploaded video
-    //     $process = new Process(['python', base_path('public\assets\dist\python\main.py'), storage_path('app\public\\' . $path)]);
-    //     $process->setTimeout(600);
-    //     $process->run();
-
-    //     if (!$process->isSuccessful()) {
-    //         throw new ProcessFailedException($process);
-    //     }
-
-    //     // Handle the output of the script
-    //     $output = $process->getOutput();
-
-    //     // You can pass the output to the view or handle it as needed
-    //     $d['title'] = 'Resident List';
-    //     $d['model'] = Resident::paginate(10);
-    //     return view('residents.residentList',$d);
-    // }
-
     public function index()
     {
         $d['title'] = 'Scan for vehicle';
@@ -84,4 +52,5 @@ class VideoController extends Controller
         // Return a view or redirect back with the output
         return view('scan', ['output' => $output, 'carInDatabase' => $carInDatabase, 'latestImagePath' => $latestImagePath, 'title' => 'Scan for vehicle']);
     }
+
 }

@@ -25,9 +25,9 @@ class UniquePlateNumber implements Rule
                 ->where('created_at', '>=', Carbon::now()->subDays($days))
                 ->exists();
         }else
-            $recentInNonResidents = true;
+            $recentInNonResidents = false;
         
-        // dd($existsInResidents);
+        // dd($recentInNonResidents);
         return !$existsInResidents && !$recentInNonResidents;
         
     }

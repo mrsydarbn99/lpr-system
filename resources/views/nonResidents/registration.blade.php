@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>LPR System</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link href="{{ asset('assets/dist/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="{{ asset('assets/dist/css/bootstrap.min.css') }}" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ asset('assets/dist/css/sb-admin-2.min.css') }}" rel="stylesheet">
   <style type="text/css">
     body {
       background: #F8F9FA;
@@ -19,6 +28,9 @@
       <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
         <div class="card border border-light-subtle rounded-3 shadow-sm">
           <div class="card-body p-3 p-md-4 p-xl-5">
+            <div class="text-center">
+              <a href="{{ route('welcome') }}"><i class="fas fa-car fa-5x"></i></a>
+            </div>
             <div class="text-center mb-3">
             </div>
             <h2 class="fs-6 fw-normal text-center text-secondary mb-4">Register Non-Resident Plate Number</h2>

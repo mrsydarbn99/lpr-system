@@ -1,9 +1,6 @@
 @extends('layout.app')
 
 @section('content')
-@php
-   $i = 1;
-@endphp
 
 <div class="container-fluid">
     <!-- Create Button -->
@@ -33,7 +30,7 @@
             <tbody>
                 @foreach ($model as $item)
                 <tr>
-                    <th scope="row">{{ $i++ }}</th>
+                    <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->phone_num }}</td>
                     <td>{{ $item->plate_num }}</td>
@@ -86,6 +83,9 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
+    <div class="d-flex justify-content-center">
+        {{ $model->links('pagination::bootstrap-4') }}
     </div>
 </div>
 

@@ -80,4 +80,9 @@
     </div>
 </div>
 
+<div class="d-flex justify-content-center">
+    {{ $model->links('pagination::bootstrap-4') }}
+</div>
+
+{{-- {{ $model->links('Paginator::useBootstrapFive()') }} --}}
 @endsection

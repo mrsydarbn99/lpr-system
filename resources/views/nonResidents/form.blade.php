@@ -22,13 +22,11 @@
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Days</label>
     <select class="form-select @error('days') is-invalid @enderror mb-3" aria-label="Default select example" name="days" id="days">
-        <option selected></option>
         @for ($i = 1; $i < 8; $i++)
-          <option value="{{ $i }}">{{ $i }}</option>
+          <option value="{{ $i }}" {{ old('days', $model->days) == $i ? 'selected' : '' }}>{{ $i }}</option>
         @endfor
     </select>
     @error('days')
       <div class="invalid-feedback">{{ $message }}</div>
     @enderror
   </div>
-  
