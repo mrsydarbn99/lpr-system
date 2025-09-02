@@ -1,66 +1,114 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚗 License Plate Recognition (LPR) System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project is a **License Plate Recognition (LPR) System** built with **Laravel, YOLO (vehicle detection), OpenCV, and EasyOCR**.  
+It supports **resident and non-resident vehicle management**, automatic **transaction recording**, and integrates with **OBS (Open Broadcaster Software)** for virtual camera input.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📦 Installation
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/yourusername/lpr-system.git
+   cd lpr-system
+   ```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+2. Install dependencies:
+   ```bash
+   composer install
+   npm install && npm run dev
+   ```
 
-## Learning Laravel
+3. Set up `.env` file:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+4. Configure your database connection in `.env`, then run:
+   ```bash
+   php artisan migrate --seed
+   ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🔑 Default Login
 
-## Laravel Sponsors
+- **Email:** `admin@gmail.com`  
+- **Password:** `abc123`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🚀 Usage Guide
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 1. Login
+- Go to the login page.
+- Use the default credentials above.
 
-## Contributing
+### 2. Register Resident
+- Navigate to the **Residents** tab.
+- Register a new resident:
+  - **Name:** `test`  
+  - **Phone:** `0123456789`  
+  - **Plate Number:** `MDF9984`  
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Setup OBS Virtual Camera
+1. Open **OBS Studio**.
+2. Add a **Media Source**.
+3. Select the video located at:
+   ```
+   lpr-system/public/assets/dist/python/video/new.mp4
+   ```
+4. Resize the video to **fit the screen width**.
+5. Start the **Virtual Camera** in OBS.
 
-## Code of Conduct
+### 4. Start Scanning
+1. Go to the **Scan** tab in the LPR system.
+2. A **Windows popup camera window** will appear.
+3. Wait for the system to detect the license plate.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 5. Check Transactions
+- If the scan is successful, the result will appear in the **Transactions** table.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 📂 Project Structure
 
-## License
+- `app/Models` → Laravel models for users, residents, non-residents, transactions  
+- `database/migrations` → Migrations for all tables  
+- `database/seeders` → Seeder for default admin user  
+- `public/assets/dist/python/video/` → Demo videos for scanning  
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## ⚙️ Requirements
+
+- PHP 8.3+
+- MySQL 8+
+- Composer
+- Node.js & NPM
+- OBS Studio (for virtual camera input)
+- Python (for YOLO & OCR integration)
+
+---
+
+## ✨ Features
+
+- ✅ Resident & Non-Resident management  
+- ✅ License Plate Recognition using YOLO & EasyOCR  
+- ✅ OBS Virtual Camera integration  
+- ✅ Transaction history logging  
+- ✅ User authentication with roles  
+
+---
+
+## 👤 Author
+
+**Muhammad Mursyid Bin Arbain**  
+Bachelor of Computer Science (Hons.) – UiTM Cawangan Melaka Kampus Jasin  
+
+---
+
+## 📝 License
+
+This project is for **educational purposes** and can be adapted for real-world implementations.
